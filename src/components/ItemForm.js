@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// destructure the onAddItem prop
+
 function ItemForm({ onAddItem }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Produce");
@@ -10,22 +10,17 @@ function ItemForm({ onAddItem }) {
       name: name,
       category: category,
       isInCart: false,
-    }
-    console.log(itemData);
+    };
     fetch("http://localhost:4000/items", {
-      method: "POST", //HTTP Verb
-      header: {
-        "Content-Type": "application/json", //specifying that we are sending a JSON string in the request)
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(itemData), //(the stringified object we are sending)
+      body: JSON.stringify(itemData),
     })
-      .then((r) => r.json())
-      //call the onAddItem prop with the newItem
-      .then((newItem) => onAddItem(newItem))
-    // console.log('name:', name)
-    // console.log("category:", category)
+      .then((resp) => resp.json())
+      .then((newItem) => onAddItem(newItem));
   }
-
   return (
     <form className="NewItem" onSubmit={handleSubmit}>
       <label>
@@ -55,5 +50,6 @@ function ItemForm({ onAddItem }) {
     </form>
   );
 }
+
 
 export default ItemForm;
